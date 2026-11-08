@@ -91,6 +91,7 @@ body.unified .shell{width:100%;max-width:none;margin-left:0}body.unified header,
 
 /* BM/EN toggle styled consistently with the existing secondary buttons. */
 .headeractions .sci-language-toggle{min-width:42px;padding:7px 12px;font-weight:800;letter-spacing:.3px;white-space:nowrap}
+.headeractions .sci-language-toggle[data-current-language="en"]{background:#eaf5ff;color:var(--blue);border-color:#b6dcf5}
 </style>
 <style id="scimind-lab-scroll-fix">
 /* Fix: pastikan panel "Jom jadi penyiasat" boleh ditatal secara berasingan. */
@@ -1328,148 +1329,129 @@ document.addEventListener('toggle',e=>{if(e.target.matches('.studio-extras')&&e.
 render();
 </script>
 <script>
-/* SciMind AI language toggle: BM <-> EN. Keeps Malay source text for reliable switching. */
-(function(){
+/* SciMind AI BM/EN language switch. Uses Google Translate for full-page translation. */
+(function () {
   'use strict';
-  const translations = {
-    'Ruang kerja / ':'Workspace / ', 'Utama':'Home', 'Versi semakan':'Review version',
-    'Khas untuk guru':'For teachers', 'SciMind AI · Bantu guru meneroka, mengenal pasti dan membimbing.':'SciMind AI · Helping teachers explore, identify and guide.',
-    'Sumber contoh pedagogi · Semakan profesional guru diperlukan':'Pedagogical examples · Professional teacher review required',
-    'TEROKA · FIKIR · JELASKAN':'EXPLORE · THINK · EXPLAIN', 'Peta Misi':'Mission Map',
-    'Ganjaran':'Rewards', 'Sumber':'Resources', 'Ringkasan aktiviti':'Activity overview',
-    'Bank soalan':'Question bank', 'Miskonsepsi':'Misconceptions', 'Aktiviti susulan':'Follow-up activities',
-    'Laporan aktiviti':'Activity reports', 'Rujukan Sains':'Science references',
-    'Jom teroka':'Let’s explore', 'dunia Sains!':'the world of Science!',
-    'Jom jadi penyiasat!':'Let’s investigate!', 'Pilih penyiasatan':'Choose an investigation',
-    'Pilih penyiasatan sifat cahaya':'Choose a light investigation', 'Sifat cahaya':'Properties of light',
-    'Apa yang kita ubah?':'What do we change?', 'Apa yang kita perhatikan?':'What do we observe?',
-    'Pemboleh ubah dimanipulasikan':'Manipulated variable', 'Pemboleh ubah bergerak balas':'Responding variable',
-    'Pemboleh ubah dimalarkan':'Controlled variable', 'Perkara yang dikekalkan':'Things kept the same',
-    'Kawalan yang boleh diubah':'Adjustable control', 'Jarak lampu daripada objek':'Distance of the lamp from the object',
-    'Jarak lampu–objek':'Lamp–object distance', 'Saiz bayang-bayang':'Shadow size',
-    'Jarak skrin':'Screen distance', 'Bahan dan cahaya':'Materials and light',
-    'Gerakkan objek, ukur bayang':'Move the object, measure the shadow',
-    'Cahaya bergerak lurus':'Light travels in a straight line', 'Putarkan silinder':'Rotate the cylinder',
-    'Arahan makmal':'Laboratory instructions', 'Tanya AI':'Ask AI', 'Pembantu Makmal':'Lab Assistant',
-    'Bunyi: HIDUP':'Sound: ON', 'Bunyi: MATI':'Sound: OFF', 'Kamus KPS':'Science Process Skills glossary',
-    'Soalan Sains kamu':'Your Science question', 'Hantar':'Send', 'Semak jawapan':'Check answer',
-    'Sedia untuk cabaran?':'Ready for the challenge?', 'Pilih satu jawapan':'Choose one answer',
-    'Baca penerangan & kumpul mata':'Read the explanation & earn points',
-    'Kenali Eksperimen':'Explore the experiment', 'Teroka Simulasi':'Explore the simulation',
-    'Cabaran Bukti':'Evidence challenge', 'Kumpul Ganjaran':'Collect rewards',
-    'Pilih eksperimen':'Choose an experiment', 'Buka galeri ganjaran':'Open rewards gallery',
-    'Gerakkan pelaras':'Move the slider', 'Lihat ilustrasi & bacaan':'View the illustration & readings',
-    'Langkah 1':'Step 1', 'Langkah 2':'Step 2', 'Langkah 3':'Step 3',
-    'Tahun':'Year', 'Mata':'Points', 'Lencana':'Badges', 'Kemajuan':'Progress',
-    'Catatan':'Notes', 'Simpan':'Save', 'Padam':'Delete', 'Tutup':'Close', 'Batal':'Cancel',
-    'Cari':'Search', 'Carian':'Search', 'Semua':'All', 'Pilih':'Select', 'Kembali':'Back',
-    'Set semula':'Reset', 'Muat turun':'Download', 'Cetak':'Print', 'Eksport':'Export',
-    'Import':'Import', 'Simpan catatan':'Save note', 'Catatan hasil':'Result notes',
-    'Nota lengkap':'Full notes', 'Lembaran':'Worksheet', 'Bahan':'Materials',
-    'Tujuan':'Aim', 'Pemerhatian':'Observation', 'Inferens':'Inference', 'Ramalan':'Prediction',
-    'Kesimpulan':'Conclusion', 'Keputusan':'Results', 'Data':'Data', 'Eksperimen':'Experiment',
-    'Pemboleh ubah':'Variables', 'Pemboleh ubah dimanipulasikan':'Manipulated variable',
-    'Pemboleh ubah bergerak balas':'Responding variable', 'Pemboleh ubah dimalarkan':'Controlled variable',
-    'Mengawal pemboleh ubah':'Controlling variables', 'Memerhati':'Observing', 'Mengelas':'Classifying',
-    'Mengukur dan menggunakan nombor':'Measuring and using numbers', 'Membuat inferens':'Making inferences',
-    'Meramal':'Predicting', 'Berkomunikasi':'Communicating',
-    'Perhubungan ruang dan masa':'Using space-time relationships', 'Mentafsir data':'Interpreting data',
-    'Mendefinisi secara operasi':'Defining operationally', 'Membuat hipotesis':'Making hypotheses',
-    'Mengeksperimen':'Experimenting', 'Kemahiran Proses Sains':'Science Process Skills',
-    'Kemahiran Proses Sains (KPS)':'Science Process Skills (SPS)',
-    'Teroka simulasi dan temui jawapannya.':'Explore simulations and discover the answers.',
-    'Kenali cara murid berfikir.':'Understand how pupils think.',
-    'Rancang pengajaran yang mencetuskan penemuan.':'Plan lessons that inspire discovery.',
-    'Jangan masukkan maklumat peribadi murid.':'Do not enter pupils’ personal information.',
-    'Sumber contoh pedagogi':'Pedagogical examples', 'Semakan profesional guru diperlukan':'Professional teacher review required',
-    'Menyiasat':'Investigate', 'Jalankan eksperimen':'Run the experiment', 'Hasil':'Results',
-    'Perbandingan':'Comparison', 'Bandingkan':'Compare', 'Ulang':'Repeat', 'Mula':'Start', 'Berhenti':'Stop'
-  };
-  const keys=Object.keys(translations).sort((a,b)=>b.length-a.length);
-  const originals=new WeakMap();
-  let language='ms';
-  let changing=false;
-  try { language=localStorage.getItem('scimind-language')==='en'?'en':'ms'; } catch(e) {}
+  var currentLanguage = 'ms';
+  var translateReady = false;
+  var translateLoading = false;
 
-  function translated(source){
-    let value=source;
-    for(const key of keys){ if(value.includes(key)) value=value.split(key).join(translations[key]); }
-    return value;
+  try {
+    currentLanguage = localStorage.getItem('scimind-language') === 'en' ? 'en' : 'ms';
+  } catch (e) {}
+
+  function updateButton() {
+    var button = document.getElementById('sci-language-toggle');
+    if (!button) return;
+    button.textContent = 'BM | EN';
+    button.title = currentLanguage === 'ms'
+      ? 'Klik untuk menterjemah laman ke Bahasa Inggeris'
+      : 'Click to return to Bahasa Melayu';
+    button.setAttribute('aria-label', button.title);
+    button.setAttribute('aria-pressed', currentLanguage === 'en' ? 'true' : 'false');
+    button.setAttribute('data-current-language', currentLanguage);
   }
-  function translateNode(node, rememberNew=true){
-    if(!node || node.nodeType!==Node.TEXT_NODE || !node.nodeValue || !node.nodeValue.trim()) return;
-    const parent=node.parentElement;
-    if(parent && parent.closest('script,style,textarea,input,select,option,[contenteditable="true"],.sci-language-toggle')) return;
-    if(!originals.has(node) && rememberNew) originals.set(node,node.nodeValue);
-    const source=originals.get(node);
-    if(source===undefined) return;
-    const result=language==='en'?translated(source):source;
-    if(node.nodeValue!==result) node.nodeValue=result;
-  }
-  function translateTree(root){
-    if(!root) return;
-    if(root.nodeType===Node.TEXT_NODE){translateNode(root);return;}
-    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
-    let node; while((node=walker.nextNode())) translateNode(node);
-  }
-  function updateToggle(){
-    const button=document.getElementById('sci-language-toggle');
-    if(!button) return;
-    button.textContent=language==='ms'?'EN':'BM';
-    button.title=language==='ms'?'Switch to English':'Tukar ke Bahasa Melayu';
-    button.setAttribute('aria-label',button.title);
-    button.setAttribute('aria-pressed',language==='en'?'true':'false');
-    document.documentElement.lang=language;
-  }
-  function applyLanguage(next){
-    if(next!=='ms' && next!=='en') return;
-    language=next;
-    try{localStorage.setItem('scimind-language',language);}catch(e){}
-    changing=true;
-    observer.disconnect();
-    translateTree(document.body);
-    updateToggle();
-    changing=false;
-    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
-  }
-  function installToggle(){
-    const actions=document.querySelector('.headeractions');
-    if(actions && !document.getElementById('sci-language-toggle')){
-      const button=document.createElement('button');
-      button.type='button'; button.id='sci-language-toggle';
-      button.className='btn secondary small sci-language-toggle';
-      button.addEventListener('click',()=>applyLanguage(language==='ms'?'en':'ms'));
-      actions.appendChild(button);
+
+  function applyGoogleLanguage(language, attempts) {
+    var select = document.querySelector('.goog-te-combo');
+    if (select) {
+      select.value = language === 'en' ? 'en' : '';
+      select.dispatchEvent(new Event('change'));
+      currentLanguage = language;
+      try { localStorage.setItem('scimind-language', currentLanguage); } catch (e) {}
+      updateButton();
+      return;
     }
-    updateToggle();
+    if (attempts > 0) {
+      window.setTimeout(function () {
+        applyGoogleLanguage(language, attempts - 1);
+      }, 250);
+    } else {
+      loadGoogleTranslate();
+      window.setTimeout(function () {
+        applyGoogleLanguage(language, 12);
+      }, 500);
+    }
   }
-  const observer=new MutationObserver(records=>{
-    if(changing) return;
-    changing=true;
-    observer.disconnect();
-    for(const record of records){
-      if(record.type==='characterData'){
-        // A live app update may reuse a text node. Capture the new source before translating it.
-        if(record.target.nodeValue && record.target.nodeValue.trim()) originals.set(record.target,record.target.nodeValue);
-        translateNode(record.target);
-      } else {
-        for(const added of record.addedNodes){
-          if(added.nodeType===Node.ELEMENT_NODE && added.id==='sci-language-toggle') continue;
-          translateTree(added);
-        }
+
+  function loadGoogleTranslate() {
+    if (translateLoading || translateReady) return;
+    translateLoading = true;
+    window.googleTranslateElementInit = function () {
+      if (!window.google || !window.google.translate) return;
+      new window.google.translate.TranslateElement({
+        pageLanguage: 'ms',
+        includedLanguages: 'en',
+        autoDisplay: false
+      }, 'google_translate_element');
+      translateReady = true;
+      translateLoading = false;
+      if (currentLanguage === 'en') {
+        window.setTimeout(function () { applyGoogleLanguage('en', 12); }, 400);
       }
-    }
-    installToggle();
-    changing=false;
-    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
-  });
-  function boot(){
-    installToggle();
-    translateTree(document.body);
-    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+    };
+    var script = document.createElement('script');
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.async = true;
+    script.onerror = function () { translateLoading = false; };
+    document.head.appendChild(script);
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true}); else boot();
-  window.SciMindLanguage={get current(){return language;},set:applyLanguage};
+
+  function installButton() {
+    var actions = document.querySelector('.headeractions');
+    if (!actions || document.getElementById('sci-language-toggle')) return;
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.id = 'sci-language-toggle';
+    button.className = 'btn secondary small sci-language-toggle';
+    button.addEventListener('click', function () {
+      var nextLanguage = currentLanguage === 'ms' ? 'en' : 'ms';
+      applyGoogleLanguage(nextLanguage, 12);
+    });
+    actions.appendChild(button);
+
+    var translateHost = document.createElement('div');
+    translateHost.id = 'google_translate_element';
+    translateHost.setAttribute('aria-hidden', 'true');
+    translateHost.style.cssText = 'position:absolute;left:-10000px;top:0;width:1px;height:1px;overflow:hidden;';
+    document.body.appendChild(translateHost);
+    updateButton();
+    loadGoogleTranslate();
+  }
+
+  function hideGoogleTranslateChrome() {
+    if (!document.getElementById('sci-translate-chrome-style')) {
+      var style = document.createElement('style');
+      style.id = 'sci-translate-chrome-style';
+      style.textContent = '.goog-te-banner-frame,.goog-te-balloon-frame,#goog-gt-tt,.goog-te-menu-frame{display:none!important}body{top:0!important}.goog-te-gadget{font-size:0!important}.goog-logo-link{display:none!important}';
+      document.head.appendChild(style);
+    }
+  }
+
+  function boot() {
+    installButton();
+    hideGoogleTranslateChrome();
+    if (currentLanguage === 'en') {
+      window.setTimeout(function () { applyGoogleLanguage('en', 12); }, 900);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
+  } else {
+    boot();
+  }
+
+  var observer = new MutationObserver(function () {
+    installButton();
+  });
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+  window.SciMindLanguage = {
+    get current() { return currentLanguage; },
+    set: function (language) {
+      if (language === 'ms' || language === 'en') applyGoogleLanguage(language, 12);
+    }
+  };
 })();
 </script>
 </body></html>
