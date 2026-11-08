@@ -119,7 +119,22 @@ body.unified .shell{width:100%;max-width:none;margin-left:0}body.unified header,
   }
 }
 </style>
-</head><body><nav id="nav" hidden aria-hidden="true"></nav><div class="shell"><header><div><span class="crumb">Ruang kerja / </span><b id="breadcrumb">Utama</b></div><div class="headeractions"><span class="pill yellow">Versi semakan</span><span class="teacherbadge">Khas untuk guru</span></div></header><main id="main"></main><footer>SciMind AI · Bantu guru meneroka, mengenal pasti dan membimbing.<span>Sumber contoh pedagogi · Semakan profesional guru diperlukan</span></footer></div><dialog id="modal"><div id="modalcontent"></div></dialog><div id="toast" role="status"></div><div id="printarea"></div><script>const rawModules=[
+\n/* BM/EN selector only; existing layout and scroll fixes are preserved. */\n.sci-language-toggle{
+  appearance:none;border:1px solid var(--line);border-radius:999px;
+  background:#fff;color:var(--blue);font:700 12px/1.2 'Segoe UI',Arial,sans-serif;
+  padding:8px 13px;min-width:68px;cursor:pointer;white-space:nowrap;
+  box-shadow:0 2px 8px rgba(23,46,72,.08);transition:transform .15s,background .15s;
+}
+.sci-language-toggle:hover{background:#eaf5ff;transform:translateY(-1px)}
+.sci-language-toggle:focus-visible{outline:3px solid var(--bright);outline-offset:3px}
+@media(max-width:720px){
+  body.lab-studio .studio-grid{height:auto!important;min-height:0!important;grid-template-columns:1fr!important;grid-template-rows:auto!important}
+  body.lab-studio .studio-view,
+  body.lab-studio .studio-picker,
+  body.lab-studio .studio-tools{max-height:none!important;overflow:visible!important}
+  body.lab-studio{overflow-y:auto!important}
+  .sci-language-toggle{padding:7px 10px;min-width:58px}
+}\n</head><body><nav id="nav" hidden aria-hidden="true"></nav><div class="shell"><header><div><span class="crumb">Ruang kerja / </span><b id="breadcrumb">Utama</b></div><div class="headeractions"><span class="pill yellow">Versi semakan</span><span class="teacherbadge">Khas untuk guru</span></div></header><main id="main"></main><footer>SciMind AI · Bantu guru meneroka, mengenal pasti dan membimbing.<span>Sumber contoh pedagogi · Semakan profesional guru diperlukan</span></footer></div><dialog id="modal"><div id="modalcontent"></div></dialog><div id="toast" role="status"></div><div id="printarea"></div><script>const rawModules=[
 ['Memerhati','◉','Mengumpul maklumat tentang objek atau fenomena menggunakan deria dan alat yang sesuai.','Nyatakan apa yang dapat dikesan, tanpa menambah sebab yang belum diuji.','Membezakan dua pemerhatian daripada satu inferens.','Daun berwarna kuning ialah pemerhatian; kekurangan mineral ialah kemungkinan sebab.','Pemerhatian dianggap sama dengan inferens.','Bahasa harian sering mencampurkan bukti dengan tafsiran.','Pilih ayat pemerhatian bagi daun kuning dan jelaskan pilihan.','Pemerhatian merekod ciri yang dikesan; inferens ialah penjelasan berdasarkan bukti.','Kad Bukti atau Sebab','Daun gugur, kanta pembesar, kad ayat','Sediakan daun yang selamat; elakkan merasa bahan.','Perhatikan warna, bentuk dan tekstur daun.|Rekod tiga ciri yang dapat dikesan.|Asingkan kad pemerhatian daripada kad penjelasan.|Bincangkan bukti bagi setiap pengelasan.','Ulang dengan sebiji buah dan minta dua pemerhatian serta satu inferens.'],
 ['Mengelas','▦','Mengumpulkan objek berdasarkan persamaan atau perbezaan ciri yang boleh diperhatikan.','Pilih satu ciri yang jelas, kemudian kumpulkan objek mengikut ciri itu.','Mengelaskan enam objek dengan satu kriteria dan menerangkan kriteria.','Daun boleh dikelaskan mengikut tepi licin atau bergerigi.','Kriteria boleh berubah antara objek dalam kumpulan yang sama.','Kriteria pengelasan tidak dinyatakan sebelum mengumpulkan objek.','Minta guru meneliti sama ada kriteria yang sama digunakan bagi semua objek.','Pengelasan yang konsisten menggunakan kriteria yang dinyatakan bagi semua objek.','Stesen Kriteria Konsisten','Kad gambar daun, gelung pengelasan','Pilih gambar yang cirinya jelas.','Nyatakan satu ciri pengelasan.|Kelaskan kad menggunakan ciri itu sahaja.|Semak kad yang tidak sepadan.|Kelaskan semula menggunakan ciri lain.','Beri set gambar baharu dan minta kriteria pengelasan bertulis.'],
 ['Mengukur dan menggunakan nombor','↔','Membandingkan kuantiti dengan unit piawai serta merekod nilai dan unit menggunakan alat sesuai.','Pilih alat, baca skala dengan betul dan tulis nombor bersama unit.','Mengukur panjang objek dengan ketepatan skala pembaris yang digunakan.','Panjang pensel ialah 12.4 cm apabila hujungnya sejajar dengan tanda sifar.','Pengukuran mesti bermula di hujung fizikal pembaris, bukan tanda sifar.','Kurang pengalaman membaca skala atau hujung pembaris yang haus.','Gunakan pembaris dengan ruang sebelum sifar dan semak alasan bacaan.','Panjang ialah beza bacaan akhir dan awal; bermula pada sifar memudahkan bacaan.','Cabaran Sifar Pembaris','Pembaris, pensel, jalur kertas','Semak pembaris dan tanda sifarnya.','Kenal pasti tanda sifar.|Ukur pensel dari sifar.|Ulang dengan pensel bermula pada tanda 2 cm.|Bandingkan beza bacaan dengan panjang sebenar.','Ukur jalur lain; semak nombor, unit dan penjajaran mata.'],
@@ -242,7 +257,124 @@ function worksheet(m){return `<h3>Lembaran pengajaran · ${m.name}</h3><p>Cadang
 function resourceHTML(m,type){const x=kpsExtra[m.id-1];if(type==='nota')return `<h2>${m.name}</h2>${block('Definisi akademik',m.academic)}${block('Penjelasan mudah',m.simple)}${block('Konsep dan ciri',m.correct+' '+x[1])}${block('Perbezaan kemahiran',x[2])}${block('Contoh umum',m.example)}`;if(type==='aktiviti')return activityHTML(m);if(type==='lembaran')return worksheet(m);if(type==='miskonsepsi')return block('Kemungkinan miskonsepsi',m.misconception)+block('Contoh respons rekaan',esc(x[3]))+block('Punca yang mungkin',m.cause)+block('Penjelasan konsep',m.correct)+block('Bukti diagnostik tambahan',m.evidence)+'<p>Respons rekaan bukan rekod murid. Dapatkan bukti pelbagai sebelum membuat kesimpulan.</p>';if(type==='diagnostik'){const q=seedQuestions.find(q=>q.kps===m.id);return `<p>Contoh item sedia ada; pemetaan tahun pada bank soalan belum disahkan DSKP. Semak aras bahasa dan konteks sebelum digunakan.</p>${questionHTML(q,true)}`};if(type==='templat'){const p=kpsPlans[m.id]||{};return `<h3>Templat perancangan intervensi · ${m.name}</h3>${planFields.map(([key,label])=>block(label,esc(p[key]||'________________________________________________').replace(/\n/g,'<br>'))).join('')}<p>Catatan perancangan guru sahaja. Tiada maklumat peribadi murid.</p>`}return kpsCore(m)}
 const planFields=[['sasaran','Kemungkinan miskonsepsi sasaran'],['bukti','Bukti diagnostik yang perlu dicari'],['objektif','Objektif aktiviti cadangan guru'],['bahan','BBM dan persediaan keselamatan'],['langkah','Langkah pelaksanaan'],['susulan','Kaedah pentaksiran semula dan ringkasan agregat']];
 function resourceModal(id,type){const m=modules.find(m=>m.id==id),title=resourceTypes.find(r=>r[0]===type)[1];if(type==='templat'){const p=kpsPlans[id]||{};openModal(title,`<p class="muted">${m.name} · Templat kosong untuk guru. Maklumat peribadi murid tidak diperlukan.</p><form id="kpsplanform" data-id="${id}">${planFields.map(([key,label])=>`<label>${label}<textarea name="${key}" maxlength="4000">${esc(p[key]||'')}</textarea></label>`).join('')}<div class="actions"><button type="submit" class="primary">Simpan templat guru</button><button type="button" class="btn secondary" data-kpsresourceprint="templat" data-id="${id}">Cetak versi tersimpan</button><button type="button" class="btn secondary" data-kpsexport="${id}" data-type="templat">Eksport versi tersimpan</button></div><p class="muted">Simpan perubahan dahulu sebelum mencetak atau mengeksport. Simpanan ini khusus pada pelayar ini.</p></form>`)}else openModal(title,`<span class="tag">${m.name} · Sumber pengajaran guru</span><div class="resource-preview">${resourceHTML(m,type)}</div><div class="actions"><button class="primary" data-kpsresourceprint="${type}" data-id="${id}">Cetak / Simpan sebagai PDF</button><button class="btn secondary" data-kpsexport="${id}" data-type="${type}">Eksport sumber HTML</button></div>`)}
-function exportKps(id,type,y=''){const m=modules.find(x=>x.id==id);const body=type==='lengkap'?kpsCore(m,y)+worksheet(m):resourceHTML(m,type);const html=`<!doctype html><html lang="ms"><head><meta charset="utf-8"><title>SciMind AI — ${esc(m.name)}</title><style>body{font:16px/1.6 Arial,sans-serif;max-width:980px;margin:40px auto;padding:20px;color:#172e48}h1,h2,h3{color:#006BA6}section{margin:25px 0}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccd7e2;padding:12px;text-align:left}.notice{border:1px solid #ffbc42;background:#fff7e7;padding:14px}.option{padding:8px;border:1px solid #ddd}.correct{background:#eaf8f2}@media print{section,.printq{break-inside:avoid}}</style></head><body><h1>SciMind AI · ${m.name}</h1><p>Sumber guru · Nota dan aktiviti pengajaran guru</p>${body}</body></html>`;const url=URL.createObjectURL(new Blob([html],{type:'text/html'})),a=document.createElement('a');a.href=url;a.download='scimind-'+kpsSlugs[m.id-1]+'-'+type+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);toast('Sumber guru dieksport.')}
+function exportKps(id,type,y=''){const m=modules.find(x=>x.id==id);const body=type==='lengkap'?kpsCore(m,y)+worksheet(m):resourceHTML(m,type);const html=`<!doctype html><html lang="ms"><head><meta charset="utf-8"><title>SciMind AI — ${esc(m.name)}</title><style>body{font:16px/1.6 Arial,sans-serif;max-width:980px;margin:40px auto;padding:20px;color:#172e48}h1,h2,h3{color:#006BA6}section{margin:25px 0}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccd7e2;padding:12px;text-align:left}.notice{border:1px solid #ffbc42;background:#fff7e7;padding:14px}.option{padding:8px;border:1px solid #ddd}.correct{background:#eaf8f2}@media print{section,.printq{break-inside:avoid}}</style></head><body><h1>SciMind AI · ${m.name}</h1><p>Sumber guru · Nota dan aktiviti pengajaran guru</p>${body}<script>
+/* SciMind AI bilingual interface (BM/EN). Original educational content is retained in BM;
+   this offline dictionary translates the interface and common classroom/lab language. */
+(function(){
+  'use strict';
+  const translations = {
+    'Ruang kerja / ':'Workspace / ', 'Utama':'Home', 'Versi semakan':'Review version',
+    'Khas untuk guru':'For teachers', 'SciMind AI · Bantu guru meneroka, mengenal pasti dan membimbing.':'SciMind AI · Helping teachers explore, identify and guide.',
+    'Sumber contoh pedagogi · Semakan profesional guru diperlukan':'Pedagogical examples · Professional teacher review required',
+    'TEROKA · FIKIR · JELASKAN':'EXPLORE · THINK · EXPLAIN', 'Peta Misi':'Mission Map',
+    'Ganjaran':'Rewards', 'Sumber':'Resources', 'Ringkasan aktiviti':'Activity overview',
+    'Bank soalan':'Question bank', 'Miskonsepsi':'Misconceptions', 'Aktiviti susulan':'Follow-up activities',
+    'Laporan aktiviti':'Activity reports', 'Rujukan Sains':'Science references',
+    'Jom teroka':'Let’s explore', 'dunia Sains!':'the world of Science!',
+    'Jom jadi penyiasat!':'Let’s investigate!', 'Pilih penyiasatan':'Choose an investigation',
+    'Pilih penyiasatan sifat cahaya':'Choose a light investigation', 'Sifat cahaya':'Properties of light',
+    'Apa yang kita ubah?':'What do we change?', 'Apa yang kita perhatikan?':'What do we observe?',
+    'Pemboleh ubah dimanipulasikan':'Manipulated variable', 'Pemboleh ubah bergerak balas':'Responding variable',
+    'Pemboleh ubah dimalarkan':'Controlled variable', 'Perkara yang dikekalkan':'Things kept the same',
+    'Kawalan yang boleh diubah':'Adjustable control', 'Jarak lampu daripada objek':'Distance of the lamp from the object',
+    'Jarak lampu–objek':'Lamp–object distance', 'Saiz bayang-bayang':'Shadow size',
+    'Jarak skrin':'Screen distance', 'Bahan dan cahaya':'Materials and light',
+    'Gerakkan objek, ukur bayang':'Move the object, measure the shadow',
+    'Cahaya bergerak lurus':'Light travels in a straight line', 'Putarkan silinder':'Rotate the cylinder',
+    'Arahan makmal':'Laboratory instructions', 'Tanya AI':'Ask AI', 'Pembantu Makmal':'Lab Assistant',
+    'Bunyi: HIDUP':'Sound: ON', 'Bunyi: MATI':'Sound: OFF', 'Kamus KPS':'Science Process Skills glossary',
+    'Soalan Sains kamu':'Your Science question', 'Hantar':'Send', 'Semak jawapan':'Check answer',
+    'Sedia untuk cabaran?':'Ready for the challenge?', 'Pilih satu jawapan':'Choose one answer',
+    'Baca penerangan & kumpul mata':'Read the explanation & earn points',
+    'Kenali Eksperimen':'Explore the experiment', 'Teroka Simulasi':'Explore the simulation',
+    'Cabaran Bukti':'Evidence challenge', 'Kumpul Ganjaran':'Collect rewards',
+    'Pilih eksperimen':'Choose an experiment', 'Buka galeri ganjaran':'Open rewards gallery',
+    'Gerakkan pelaras':'Move the slider', 'Lihat ilustrasi & bacaan':'View the illustration & readings',
+    'Langkah 1':'Step 1', 'Langkah 2':'Step 2', 'Langkah 3':'Step 3',
+    'Tahun':'Year', 'Mata':'Points', 'Lencana':'Badges', 'Kemajuan':'Progress',
+    'Catatan':'Notes', 'Simpan':'Save', 'Padam':'Delete', 'Tutup':'Close', 'Batal':'Cancel',
+    'Cari':'Search', 'Carian':'Search', 'Semua':'All', 'Pilih':'Select', 'Kembali':'Back',
+    'Set semula':'Reset', 'Muat turun':'Download', 'Cetak':'Print', 'Eksport':'Export',
+    'Import':'Import', 'Simpan catatan':'Save note', 'Catatan hasil':'Result notes',
+    'Nota lengkap':'Full notes', 'Lembaran':'Worksheet', 'Bahan':'Materials',
+    'Tujuan':'Aim', 'Pemerhatian':'Observation', 'Inferens':'Inference', 'Ramalan':'Prediction',
+    'Kesimpulan':'Conclusion', 'Keputusan':'Results', 'Data':'Data', 'Eksperimen':'Experiment',
+    'Pemboleh ubah':'Variables', 'Pemboleh ubah dimanipulasikan':'Manipulated variable',
+    'Pemboleh ubah bergerak balas':'Responding variable', 'Pemboleh ubah dimalarkan':'Controlled variable',
+    'Mengawal pemboleh ubah':'Controlling variables', 'Memerhati':'Observing', 'Mengelas':'Classifying',
+    'Mengukur dan menggunakan nombor':'Measuring and using numbers', 'Membuat inferens':'Making inferences',
+    'Meramal':'Predicting', 'Berkomunikasi':'Communicating',
+    'Perhubungan ruang dan masa':'Using space-time relationships', 'Mentafsir data':'Interpreting data',
+    'Mendefinisi secara operasi':'Defining operationally', 'Membuat hipotesis':'Making hypotheses',
+    'Mengeksperimen':'Experimenting', 'Kemahiran Proses Sains':'Science Process Skills',
+    'Kemahiran Proses Sains (KPS)':'Science Process Skills (SPS)',
+    'Teroka simulasi dan temui jawapannya.':'Explore simulations and discover the answers.',
+    'Kenali cara murid berfikir.':'Understand how pupils think.',
+    'Rancang pengajaran yang mencetuskan penemuan.':'Plan lessons that inspire discovery.',
+    'Jangan masukkan maklumat peribadi murid.':'Do not enter pupils’ personal information.',
+    'Sumber contoh pedagogi':'Pedagogical examples', 'Semakan profesional guru diperlukan':'Professional teacher review required',
+    'Menyiasat':'Investigate', 'Jalankan eksperimen':'Run the experiment', 'Hasil':'Results',
+    'Perbandingan':'Comparison', 'Bandingkan':'Compare', 'Ulang':'Repeat', 'Mula':'Start', 'Berhenti':'Stop'
+  };
+  const reverse = new Map(Object.entries(translations).map(([ms,en])=>[en,ms]));
+  let language='ms';
+  try { language=localStorage.getItem('scimind-language')==='en'?'en':'ms'; } catch(_) {}
+  const originals=new WeakMap();
+  const keys=Object.keys(translations).sort((a,b)=>b.length-a.length);
+  function translateTextNode(node){
+    if(!node || !node.nodeValue || !node.nodeValue.trim()) return;
+    if(node.parentElement?.closest('script,style,textarea,input,[contenteditable="true"],.sci-language-toggle')) return;
+    const current=node.nodeValue;
+    if(!originals.has(node)) originals.set(node,current);
+    let original=originals.get(node);
+    // If app rendering replaces this node's text, treat the new Malay text as its source.
+    if(language==='ms' && current!==original) originals.set(node,current);
+    original=originals.get(node);
+    if(language==='ms'){ if(current!==original) node.nodeValue=original; return; }
+    let value=original;
+    for(const ms of keys){ if(value.includes(ms)) value=value.split(ms).join(translations[ms]); }
+    if(current!==value) node.nodeValue=value;
+  }
+  function translateTree(root){
+    if(!root)return;
+    if(root.nodeType===Node.TEXT_NODE){translateTextNode(root);return;}
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    let node; while((node=walker.nextNode())) translateTextNode(node);
+  }
+  function updateToggle(){
+    const button=document.getElementById('sci-language-toggle'); if(!button)return;
+    button.textContent=language==='ms'?'EN  |  English':'BM  |  Bahasa Melayu';
+    button.setAttribute('aria-label',language==='ms'?'Switch to English':'Tukar ke Bahasa Melayu');
+    button.setAttribute('aria-pressed',language==='en'?'true':'false');
+    document.documentElement.lang=language;
+  }
+  function installToggle(){
+    const actions=document.querySelector('.headeractions') || document.querySelector('header');
+    if(actions && !document.getElementById('sci-language-toggle')){
+      const btn=document.createElement('button'); btn.type='button'; btn.id='sci-language-toggle';
+      btn.className='sci-language-toggle'; btn.addEventListener('click',()=>{
+        language=language==='ms'?'en':'ms';
+        try{localStorage.setItem('scimind-language',language)}catch(_){}
+        translateTree(document.body); updateToggle();
+      });
+      actions.appendChild(btn);
+    }
+    updateToggle();
+  }
+  const observer=new MutationObserver(records=>{
+    observer.disconnect();
+    for(const record of records){
+      if(record.type==='characterData') translateTextNode(record.target);
+      else for(const added of record.addedNodes) translateTree(added);
+    }
+    installToggle();
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true});
+  });
+  function boot(){installToggle();translateTree(document.body);observer.observe(document.body,{subtree:true,childList:true,characterData:true});}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+  window.SciMindLanguage={get current(){return language;},set(value){if(value==='ms'||value==='en'){language=value;try{localStorage.setItem('scimind-language',language)}catch(_){}translateTree(document.body);updateToggle();}}};
+})();
+</script>\n</body></html>`;const url=URL.createObjectURL(new Blob([html],{type:'text/html'})),a=document.createElement('a');a.href=url;a.download='scimind-'+kpsSlugs[m.id-1]+'-'+type+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);toast('Sumber guru dieksport.')}
 const baseRender=render;
 render=function(){const match=location.hash.match(/^#kps\/([^/]+)(?:\/([456]))?$/);if(match){const idx=kpsSlugs.indexOf(match[1]);if(idx>=0){page='kps';$('#nav').innerHTML=pages.map(p=>`<a href="#${p[0]}" class="${p[0]==='kps'?'active':''}"><span class="navicon">${p[1]}</span>${p[2]}</a>`).join('');$('#breadcrumb').innerHTML=`<a href="#kps" data-kpsback="true">Perpustakaan KPS</a> / ${esc(modules[idx].name)}`;$('#main').innerHTML=skillPage(modules[idx],match[2]||'');document.title=modules[idx].name+' — SciMind AI';return}}if(location.hash==='#kps'&&restoreKps&&kpsBackState){({search,year,skill}=kpsBackState);restoreKps=false}baseRender();document.title='SciMind AI — Platform Guru';};
 document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t)return;const d=t.dataset;if(d.kpslink)kpsBackState={search,year,skill};if(d.kpsback){restoreKps=true;if(location.hash==='#kps'){render()}}if(d.kpssection){const el=document.getElementById(d.kpssection==='sumber'?'sumber':'bahagian-'+d.kpssection);el?.scrollIntoView({behavior:'smooth',block:'start'})}if(d.kpsresource)resourceModal(d.id,d.kpsresource);if(d.kpsprint){const m=modules.find(m=>m.id==d.kpsprint);printContent('Nota lengkap · '+m.name,kpsCore(m,d.year||''))}if(d.kpsresourceprint){const m=modules.find(m=>m.id==d.id);printContent(m.name+' · '+resourceTypes.find(r=>r[0]===d.kpsresourceprint)[1],resourceHTML(m,d.kpsresourceprint))}if(d.kpsexport)exportKps(d.kpsexport,d.type,d.year||'')});
@@ -293,46 +425,7 @@ resourceHTML=function(m,type){if(type==='aktiviti')return experimentsFor(m.id,lo
 function expandedExperimentResources(html){return html.replace(/<article class="card experiment-card">[\s\S]*?<\/article>/g,card=>{const id=card.match(/data-experiment="([^"]+)"/)?.[1],skillId=Number(card.match(/data-kpsid="(\d+)"/)?.[1]);const x=experiments.find(x=>x.id===id);return x?`<section><h2>${x.title}</h2>${experimentBody(x,skillId)}</section>`:card})}
 const basicPrintContent=printContent;
 printContent=function(title,body){basicPrintContent(title,expandedExperimentResources(body))};
-exportKps=function(id,type,y=''){const m=modules.find(x=>x.id==id),body=expandedExperimentResources(type==='lengkap'?kpsCore(m,y)+worksheet(m):resourceHTML(m,type)),html=`<!doctype html><html lang="ms"><head><meta charset="utf-8"><title>SciMind AI — ${esc(m.name)}</title><style>body{font:16px/1.6 Arial;max-width:960px;margin:30px auto;padding:20px;color:#172e48}h1,h2,h3{color:#006ba6}section{margin:20px 0}table{border-collapse:collapse;width:100%}td,th{border:1px solid #bccddd;padding:10px;text-align:left}.notice{border:1px solid #ffbc42;padding:14px;margin:15px 0}.option{padding:8px}.correct{background:#eaf8f2}@media print{h2{break-after:avoid}tr{break-inside:avoid}}
-/* SciMind QA patch: predictable laboratory scrolling on desktop and mobile. */
-body.lab-studio .studio-grid{
-  height:calc(100dvh - 205px)!important;
-  min-height:0!important;
-  align-items:stretch!important;
-}
-body.lab-studio .studio-view{
-  min-height:0!important;
-  max-height:calc(100dvh - 205px)!important;
-  overflow-x:hidden!important;
-  overflow-y:auto!important;
-  overscroll-behavior-y:contain;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:thin;
-}
-body.lab-studio .studio-picker,
-body.lab-studio .studio-tools{
-  min-height:0!important;
-  max-height:calc(100dvh - 205px)!important;
-  overflow-x:hidden!important;
-  overflow-y:auto!important;
-}
-.sci-language-toggle{
-  appearance:none;border:1px solid var(--line);border-radius:999px;
-  background:#fff;color:var(--blue);font:700 12px/1.2 'Segoe UI',Arial,sans-serif;
-  padding:8px 13px;min-width:68px;cursor:pointer;white-space:nowrap;
-  box-shadow:0 2px 8px rgba(23,46,72,.08);transition:transform .15s,background .15s;
-}
-.sci-language-toggle:hover{background:#eaf5ff;transform:translateY(-1px)}
-.sci-language-toggle:focus-visible{outline:3px solid var(--bright);outline-offset:3px}
-@media(max-width:720px){
-  body.lab-studio .studio-grid{height:auto!important;min-height:0!important;grid-template-columns:1fr!important;grid-template-rows:auto!important}
-  body.lab-studio .studio-view,
-  body.lab-studio .studio-picker,
-  body.lab-studio .studio-tools{max-height:none!important;overflow:visible!important}
-  body.lab-studio{overflow-y:auto!important}
-  .sci-language-toggle{padding:7px 10px;min-width:58px}
-}
-</style></head><body><h1>SciMind AI · ${m.name}</h1><p>Nota dan eksperimen pengajaran guru${y?' · Tahun '+y:''}</p>${body}</body></html>`;const url=URL.createObjectURL(new Blob([html],{type:'text/html'})),a=document.createElement('a');a.href=url;a.download='scimind-'+kpsSlugs[m.id-1]+'-'+type+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);toast('Sumber lengkap dieksport.')};
+exportKps=function(id,type,y=''){const m=modules.find(x=>x.id==id),body=expandedExperimentResources(type==='lengkap'?kpsCore(m,y)+worksheet(m):resourceHTML(m,type)),html=`<!doctype html><html lang="ms"><head><meta charset="utf-8"><title>SciMind AI — ${esc(m.name)}</title><style>body{font:16px/1.6 Arial;max-width:960px;margin:30px auto;padding:20px;color:#172e48}h1,h2,h3{color:#006ba6}section{margin:20px 0}table{border-collapse:collapse;width:100%}td,th{border:1px solid #bccddd;padding:10px;text-align:left}.notice{border:1px solid #ffbc42;padding:14px;margin:15px 0}.option{padding:8px}.correct{background:#eaf8f2}@media print{h2{break-after:avoid}tr{break-inside:avoid}}</style></head><body><h1>SciMind AI · ${m.name}</h1><p>Nota dan eksperimen pengajaran guru${y?' · Tahun '+y:''}</p>${body}</body></html>`;const url=URL.createObjectURL(new Blob([html],{type:'text/html'})),a=document.createElement('a');a.href=url;a.download='scimind-'+kpsSlugs[m.id-1]+'-'+type+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);toast('Sumber lengkap dieksport.')};
 render();
 </script><script>/* Halaman utama yang ceria untuk guru; modul sedia ada dikekalkan. */
 home=function(){return `<section class="welcome-hero"><div class="welcome-copy"><span class="welcome-label">✦ RAKAN GURU SAINS · TAHUN 4, 5 & 6</span><h1>Jom teroka<br><em>dunia Sains!</em></h1><p>Kenali cara murid berfikir.<br>Rancang pengajaran yang mencetuskan penemuan.</p><div class="actions"><button class="primary welcome-start" data-go="kps">Teroka Kemahiran Proses Sains <span>→</span></button><button class="btn secondary welcome-second" data-go="dashboard">Ruang kerja guru</button></div><div class="welcome-trail">Teroka <span>→</span> Kenal pasti <span>→</span> Bimbing <span>→</span> Nilai semula</div></div><div class="welcome-scene"><div class="orbit"></div><span class="science-bubble bubble-one">⚛</span><span class="science-bubble bubble-two">°C</span><span class="science-bubble bubble-three">⚗</span><span class="welcome-star star-one">✦</span><span class="welcome-star star-two">✦</span><div class="mascot" role="img" aria-label="Maskot rasmi saintis lelaki dan perempuan SciMind AI"></div><div class="mascot-speech">Teroka. Fikir. Jelaskan! ✨</div><span class="mascot-caption">Teman penerokaan Sains anda</span></div></section><section class="welcome-ribbon"><div><span class="eyebrow">DARI IDEA KEPADA PENGAJARAN</span><h2>Eksperimen yang dekat dengan kelas anda.</h2><p>7 panduan aktiviti dengan langkah, pemboleh ubah dan jadual data boleh cetak.</p></div><button class="btn primary" data-go="kps">Lihat eksperimen →</button></section><div class="sectionhead"><div><span class="eyebrow">PILIH RUANG PENEROKAAN</span><h2 style="font-size:28px;margin-top:8px">Apa yang cikgu perlukan hari ini?</h2><p>Semua sumber dalam satu platform, khas untuk guru.</p></div></div><div class="grid welcome-modules">${[['kps','▧','Perpustakaan KPS','12 kemahiran, penjelasan konsep dan eksperimen mengikut tahun.','12 kemahiran'],['bank','▣','Bank Soalan Diagnostik','Bina soalan dua peringkat untuk memahami jawapan dan alasan.','Cipta · Susun · Cetak'],['misconceptions','◇','Pustaka Miskonsepsi','Teliti kemungkinan salah faham dan cari bukti yang menyokong.','Berpandukan bukti'],['interventions','⚗','Pusat Intervensi','Pilih aktiviti dan simpan catatan penyesuaian pengajaran.','Aktiviti guru'],['reports','▥','Laporan Guru','Teroka pola kelas melalui data agregat demonstrasi.','Data simulasi'],['curriculum','▱','Rujukan Pengajaran','Cari rujukan topik dan sumber buku teks Tahun 4, 5 dan 6.','Sumber pengajaran']].map(a=>`<article class="card"><span class="bigicon">${a[1]}</span><h3>${a[2]}</h3><p>${a[3]}</p><div class="cardfoot"><span class="tag">${a[4]}</span><button class="textlink" data-go="${a[0]}">Teroka →</button></div></article>`).join('')}</div>${stats()}<section class="welcome-evidence"><div><span class="eyebrow">BIMBING DENGAN BUKTI</span><h2>Setiap alasan membuka ruang untuk belajar.</h2><p>Satu jawapan belum mengesahkan miskonsepsi. Gabungkan diagnostik, perbincangan dan tugasan susulan untuk merancang langkah seterusnya.</p></div><button class="btn secondary" data-go="misconceptions">Panduan miskonsepsi →</button></section>${notice()}`};
@@ -1362,117 +1455,5 @@ extraUpdate=function(id,controls=false){hubExtraUpdateBase(id,controls);syncNote
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset,id=d.notesSave||d.notesCompare||d.notesOpen||d.notesWorksheet||d.notesPrintRecords||d.notesExportRecords;if(!id)return;if(d.notesSave){if(!notesReady(id))return toast('Lengkapkan radas dan jalankan ujian dahulu.');notesSnapshots[notesKey(id)]=notesPayload(id);let saved=true;try{localStorage.setItem('scimind-note-comparisons-v1',JSON.stringify(notesSnapshots))}catch{saved=false}const panel=document.querySelector('.comparison-panel');if(panel)panel.innerHTML=comparisonPanel(id);toast(saved?'Tetapan pertama disimpan. Ubah satu faktor dan bandingkan.':'Tetapan disimpan untuk sesi ini.')}if(d.notesCompare){const first=notesSnapshots[notesKey(id)];if(!first)return;if(!notesReady(id))return toast('Jalankan tetapan semasa sebelum membuat perbandingan.');const current=notesPayload(id),timeMismatch=first.time!==null&&current.time!==null&&first.time!==current.time,msg=timeMismatch?'⏱️ Masa pemerhatian berbeza. Samakan masa sebelum membuat kesimpulan tentang kesan faktor.':first.value===current.value?'Faktor ujian sama. Ini ulangan model; belum membandingkan faktor yang berbeza.':'Hanya '+current.factor.toLowerCase()+' dibandingkan. Semak keadaan lain yang dikekalkan.';document.querySelector('.notes-comparison-result').innerHTML=`<div class="comparison-grid"><div><b>Tetapan pertama</b><p>${esc(first.reading)}</p><small>${esc(first.timeLabel)}</small></div><div><b>Tetapan semasa</b><p>${esc(current.reading)}</p><small>${esc(current.timeLabel)}</small></div></div><p class="notice" role="status">${esc(msg)}</p><p>Nyatakan pemerhatian dahulu. Inferens ialah sebab yang dicadangkan berdasarkan bukti.</p>`}if(d.notesOpen)openModal('Nota lengkap · '+notesPlan(id).title,notesDocument(id,true));if(d.notesWorksheet)printContent('Lembaran · '+notesPlan(id).title,notesDocument(id,false));if(d.notesPrintRecords)printContent('Catatan hasil · '+notesPlan(id).title,notesRecords(id));if(d.notesExportRecords){const rows=extraLabs[id]?(extraStore.records[id]||[]):labState(id).records;extraDownload('scimind-catatan-'+id+'.txt','text/plain;charset=utf-8',notesPlan(id).title+'\nData model pembelajaran\n\n'+rows.join('\n\n'))}});
 document.addEventListener('toggle',e=>{if(e.target.matches('.studio-extras')&&e.target.open)syncNotesHub()},true);
 render();
-</script>
-<script>
-/* SciMind AI bilingual interface (BM/EN). Original educational content is retained in BM;
-   this offline dictionary translates the interface and common classroom/lab language. */
-(function(){
-  'use strict';
-  const translations = {
-    'Ruang kerja / ':'Workspace / ', 'Utama':'Home', 'Versi semakan':'Review version',
-    'Khas untuk guru':'For teachers', 'SciMind AI · Bantu guru meneroka, mengenal pasti dan membimbing.':'SciMind AI · Helping teachers explore, identify and guide.',
-    'Sumber contoh pedagogi · Semakan profesional guru diperlukan':'Pedagogical examples · Professional teacher review required',
-    'TEROKA · FIKIR · JELASKAN':'EXPLORE · THINK · EXPLAIN', 'Peta Misi':'Mission Map',
-    'Ganjaran':'Rewards', 'Sumber':'Resources', 'Ringkasan aktiviti':'Activity overview',
-    'Bank soalan':'Question bank', 'Miskonsepsi':'Misconceptions', 'Aktiviti susulan':'Follow-up activities',
-    'Laporan aktiviti':'Activity reports', 'Rujukan Sains':'Science references',
-    'Jom teroka':'Let’s explore', 'dunia Sains!':'the world of Science!',
-    'Jom jadi penyiasat!':'Let’s investigate!', 'Pilih penyiasatan':'Choose an investigation',
-    'Pilih penyiasatan sifat cahaya':'Choose a light investigation', 'Sifat cahaya':'Properties of light',
-    'Apa yang kita ubah?':'What do we change?', 'Apa yang kita perhatikan?':'What do we observe?',
-    'Pemboleh ubah dimanipulasikan':'Manipulated variable', 'Pemboleh ubah bergerak balas':'Responding variable',
-    'Pemboleh ubah dimalarkan':'Controlled variable', 'Perkara yang dikekalkan':'Things kept the same',
-    'Kawalan yang boleh diubah':'Adjustable control', 'Jarak lampu daripada objek':'Distance of the lamp from the object',
-    'Jarak lampu–objek':'Lamp–object distance', 'Saiz bayang-bayang':'Shadow size',
-    'Jarak skrin':'Screen distance', 'Bahan dan cahaya':'Materials and light',
-    'Gerakkan objek, ukur bayang':'Move the object, measure the shadow',
-    'Cahaya bergerak lurus':'Light travels in a straight line', 'Putarkan silinder':'Rotate the cylinder',
-    'Arahan makmal':'Laboratory instructions', 'Tanya AI':'Ask AI', 'Pembantu Makmal':'Lab Assistant',
-    'Bunyi: HIDUP':'Sound: ON', 'Bunyi: MATI':'Sound: OFF', 'Kamus KPS':'Science Process Skills glossary',
-    'Soalan Sains kamu':'Your Science question', 'Hantar':'Send', 'Semak jawapan':'Check answer',
-    'Sedia untuk cabaran?':'Ready for the challenge?', 'Pilih satu jawapan':'Choose one answer',
-    'Baca penerangan & kumpul mata':'Read the explanation & earn points',
-    'Kenali Eksperimen':'Explore the experiment', 'Teroka Simulasi':'Explore the simulation',
-    'Cabaran Bukti':'Evidence challenge', 'Kumpul Ganjaran':'Collect rewards',
-    'Pilih eksperimen':'Choose an experiment', 'Buka galeri ganjaran':'Open rewards gallery',
-    'Gerakkan pelaras':'Move the slider', 'Lihat ilustrasi & bacaan':'View the illustration & readings',
-    'Langkah 1':'Step 1', 'Langkah 2':'Step 2', 'Langkah 3':'Step 3',
-    'Tahun':'Year', 'Mata':'Points', 'Lencana':'Badges', 'Kemajuan':'Progress',
-    'Catatan':'Notes', 'Simpan':'Save', 'Padam':'Delete', 'Tutup':'Close', 'Batal':'Cancel',
-    'Cari':'Search', 'Carian':'Search', 'Semua':'All', 'Pilih':'Select', 'Kembali':'Back',
-    'Set semula':'Reset', 'Muat turun':'Download', 'Cetak':'Print', 'Eksport':'Export',
-    'Import':'Import', 'Simpan catatan':'Save note', 'Catatan hasil':'Result notes',
-    'Nota lengkap':'Full notes', 'Lembaran':'Worksheet', 'Bahan':'Materials',
-    'Tujuan':'Aim', 'Pemerhatian':'Observation', 'Inferens':'Inference', 'Ramalan':'Prediction',
-    'Kesimpulan':'Conclusion', 'Keputusan':'Results', 'Data':'Data', 'Eksperimen':'Experiment',
-    'Pemboleh ubah':'Variables', 'Pemboleh ubah dimanipulasikan':'Manipulated variable',
-    'Pemboleh ubah bergerak balas':'Responding variable', 'Pemboleh ubah dimalarkan':'Controlled variable',
-    'Mengawal pemboleh ubah':'Controlling variables', 'Memerhati':'Observing', 'Mengelas':'Classifying',
-    'Mengukur dan menggunakan nombor':'Measuring and using numbers', 'Membuat inferens':'Making inferences',
-    'Meramal':'Predicting', 'Berkomunikasi':'Communicating',
-    'Perhubungan ruang dan masa':'Using space-time relationships', 'Mentafsir data':'Interpreting data',
-    'Mendefinisi secara operasi':'Defining operationally', 'Membuat hipotesis':'Making hypotheses',
-    'Mengeksperimen':'Experimenting', 'Kemahiran Proses Sains':'Science Process Skills',
-    'Kemahiran Proses Sains (KPS)':'Science Process Skills (SPS)',
-    'Teroka simulasi dan temui jawapannya.':'Explore simulations and discover the answers.',
-    'Kenali cara murid berfikir.':'Understand how pupils think.',
-    'Rancang pengajaran yang mencetuskan penemuan.':'Plan lessons that inspire discovery.',
-    'Jangan masukkan maklumat peribadi murid.':'Do not enter pupils’ personal information.',
-    'Sumber contoh pedagogi':'Pedagogical examples', 'Semakan profesional guru diperlukan':'Professional teacher review required',
-    'Menyiasat':'Investigate', 'Jalankan eksperimen':'Run the experiment', 'Hasil':'Results',
-    'Perbandingan':'Comparison', 'Bandingkan':'Compare', 'Ulang':'Repeat', 'Mula':'Start', 'Berhenti':'Stop'
-  };
-  const reverse = new Map(Object.entries(translations).map(([ms,en])=>[en,ms]));
-  let language='ms';
-  try { language=localStorage.getItem('scimind-language')==='en'?'en':'ms'; } catch(_) {}
-  const originals=new WeakMap();
-  const keys=Object.keys(translations).sort((a,b)=>b.length-a.length);
-  function translateTextNode(node){
-    if(!node || !node.nodeValue || !node.nodeValue.trim()) return;
-    if(node.parentElement?.closest('script,style,textarea,input,[contenteditable="true"],.sci-language-toggle')) return;
-    if(!originals.has(node)) originals.set(node,node.nodeValue);
-    const original=originals.get(node);
-    if(language==='ms'){ if(node.nodeValue!==original) node.nodeValue=original; return; }
-    let value=original;
-    for(const ms of keys){ if(value.includes(ms)) value=value.split(ms).join(translations[ms]); }
-    if(node.nodeValue!==value) node.nodeValue=value;
-  }
-  function translateTree(root){
-    if(!root)return;
-    if(root.nodeType===Node.TEXT_NODE){translateTextNode(root);return;}
-    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
-    let node; while((node=walker.nextNode())) translateTextNode(node);
-  }
-  function updateToggle(){
-    const button=document.getElementById('sci-language-toggle'); if(!button)return;
-    button.textContent=language==='ms'?'EN  |  English':'BM  |  Bahasa Melayu';
-    button.setAttribute('aria-label',language==='ms'?'Switch to English':'Tukar ke Bahasa Melayu');
-    button.setAttribute('aria-pressed',language==='en'?'true':'false');
-    document.documentElement.lang=language;
-  }
-  function installToggle(){
-    const actions=document.querySelector('.headeractions') || document.querySelector('header');
-    if(actions && !document.getElementById('sci-language-toggle')){
-      const btn=document.createElement('button'); btn.type='button'; btn.id='sci-language-toggle';
-      btn.className='sci-language-toggle'; btn.addEventListener('click',()=>{
-        language=language==='ms'?'en':'ms';
-        try{localStorage.setItem('scimind-language',language)}catch(_){}
-        translateTree(document.body); updateToggle();
-      });
-      actions.appendChild(btn);
-    }
-    updateToggle();
-  }
-  const observer=new MutationObserver(records=>{
-    for(const record of records){
-      if(record.type==='characterData') translateTextNode(record.target);
-      else for(const added of record.addedNodes) translateTree(added);
-    }
-    installToggle();
-  });
-  function boot(){installToggle();translateTree(document.body);observer.observe(document.body,{subtree:true,childList:true,characterData:true});}
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
-  window.SciMindLanguage={get current(){return language;},set(value){if(value==='ms'||value==='en'){language=value;try{localStorage.setItem('scimind-language',language)}catch(_){}translateTree(document.body);updateToggle();}}};
-})();
 </script>
 </body></html>
