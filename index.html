@@ -55,7 +55,17 @@ body.lab-studio .shell{margin-left:0;width:100%;max-width:none;padding:0}.lab-st
 .lab-studio .mission-step-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));justify-self:end;justify-content:stretch;gap:8px;width:min(100%,560px);min-width:0;max-width:100%;box-sizing:border-box}
 .lab-studio .mission-step-tabs>a{display:flex;justify-content:center;align-items:center;gap:6px;min-width:0;white-space:nowrap;padding:8px 10px;box-sizing:border-box}
 .lab-studio .mission-step-tabs>a span{flex-shrink:0}
-.studio-view{display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.studio-view {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #b88ce6 #34204e;
+}
 .studio-view>.studio-variables{flex:0 0 auto;margin-bottom:0}
 .studio-scene{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
 .studio-view>.actions{flex:0 0 auto;margin:0;gap:8px}
